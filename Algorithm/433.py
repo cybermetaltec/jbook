@@ -42,29 +42,54 @@ from typing import List
 # print(ret)
 # return sum(ret) if ret else -1
 
+# class Solution:
+#     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+#         # 判断两个字符串是否只有一个字符不一样
+#         def str_diff_count(s, target):
+#             return sum([i != j for i, j in zip(s, target)]) == 1
+#
+#         # 筛选出列表中与传入的字符串只有一个字符不一样的字符串
+#         def str_transformed(s, target: set[str]) -> List[str]:
+#             return [j for j in target if str_diff_count(s, j)]
+#
+#         def bfs(nodes: List[str], target: set[str], level=0):
+#             children = []
+#             for node in nodes:
+#                 if node == end and end in bank:
+#                     return level
+#                 children += str_transformed(node, target)
+#             new_target = target - set(children)
+#             return bfs(children, new_target, level + 1) if children else -1
+#
+#         t = set(bank)
+#         # start in t and t.remove(start)
+#         ret = bfs([start], t) if bank else -1
+#         return ret
+
+
 class Solution:
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-        # 判断两个字符串是否只有一个字符不一样
-        def str_diff_count(s, target):
-            return sum([i != j for i, j in zip(s, target)]) == 1
+        def gen_nln(nodes):
+            opts = {'A': 'TCG', 'T': 'ACG', 'C': 'ATG', 'G': 'ATC'}
+            children = [node[:i] + s + node[i + 1:] for node in nodes for i in range(len(node)) for s in opts[node[i]]
+                        if node[:i] + s + node[i + 1:] in bank]
+            for child in children: child in bank and bank.remove(child)
+            return children
 
-        # 筛选出列表中与传入的字符串只有一个字符不一样的字符串
-        def str_transformed(s, target: set[str]) -> List[str]:
-            return [j for j in target if str_diff_count(s, j)]
-
-        def bfs(nodes: List[str], target: set[str], level=0):
-            children = []
-            for node in nodes:
-                if node == end and end in bank:
-                    return level
-                children += str_transformed(node, target)
-            new_target = target - set(children)
-            return bfs(children, new_target, level + 1) if children else -1
-
-        t = set(bank)
-        # start in t and t.remove(start)
-        ret = bfs([start], t) if bank else -1
-        return ret
+        bank = set(bank)
+        if not bank or end not in bank: return -1
+        level_nodes = [start]
+        level = 0
+        while level_nodes:
+            for node in level_nodes:
+                if node == end: return level
+            next_level_nodes = gen_nln(level_nodes)
+            if next_level_nodes:
+                level += 1
+                level_nodes = next_level_nodes
+            else:
+                return -1
+        return level
 
 
 start = "AACCGGTT"
