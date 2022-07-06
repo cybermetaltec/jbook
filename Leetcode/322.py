@@ -1,6 +1,6 @@
 from typing import List
 
-from Algorithm.t import asrt
+from Leetcode.t import asrt
 from collections import deque
 
 

@@ -1,4 +1,4 @@
-from Algorithm.t import asrt
+from Leetcode.t import asrt
 
 
 class Solution:
