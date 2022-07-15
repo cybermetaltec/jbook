@@ -5,7 +5,7 @@ from Leetcode.t import asrt
 
 
 # 遍历
-class Solution:
+class Solution0:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         m, n = len(board), len(board[0])
         rows, cols = {r: Counter() for r in range(m)}, {c: Counter() for c in range(m)}
