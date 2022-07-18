@@ -11,7 +11,7 @@ class MyTestCase(unittest.TestCase):
         for case, ans in cases:
             with self.subTest(case):
                 ret = Solution().solveNQueens(case)
-                self.assertEqual(ret, ans, f'{ret} is not {ans}')
+                self.assertCountEqual(ret, ans, f'{ret} is not {ans}')
 
 
 if __name__ == '__main__':
