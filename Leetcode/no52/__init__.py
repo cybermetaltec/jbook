@@ -15,7 +15,6 @@ class Solution:
         pos = ~(row | left | right) & self.mod
         while pos:
             lowest_1 = pos & -pos
-            lowest_1_index = bin(lowest_1).count("0") - 1
             new_row = row + lowest_1
             new_left = (lowest_1 + left) << 1
             new_right = (lowest_1 + right) >> 1
