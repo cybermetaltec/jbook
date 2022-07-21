@@ -1,33 +1,28 @@
 import random
 import unittest
+from typing import Callable, ClassVar
 
-from Leetcode.sort import QuikSort, MergeSort
+from Leetcode.sort import QuickSort, MergeSort
 
 
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self.case = [random.randint(0, 100) for _ in range(99)]
+        self.cases = [[random.randint(0, 100) for _ in range(random.randint(0, 100))] for _ in range(100)]
+
+    def _test_sort(self, fn: ClassVar):
+        for case in self.cases:
+            ret = fn().sort(case[:])
+            ans = sorted(case[:])
+            self.assertEqual(ret, ans)
 
     def test_quick_sort(self):
-        cp1 = self.case[:]
-        cp2 = self.case[:]
-        QuikSort().sort(cp1)
-        ans = sorted(cp2)
-        self.assertEqual(cp1, ans)  # add assertion here
+        self._test_sort(QuickSort)
 
     def test_merge_sort(self):
-        cp1 = self.case[:]
-        cp2 = self.case[:]
-        ret = MergeSort().sort(cp1)
-        ans = sorted(cp2)
-        self.assertEqual(ret, ans)  # add assertion here
+        self._test_sort(MergeSort)
 
     def test_heap_sort(self):
-        cp1 = self.case[:]
-        cp2 = self.case[:]
-        quick_sort(cp1)
-        ans = sorted(cp2)
-        self.assertListEqual(cp1, cp2)  # add assertion here
+        pass
 
 
 if __name__ == '__main__':
